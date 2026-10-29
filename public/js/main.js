@@ -740,6 +740,7 @@
   'use strict';
 
   /* ─── PASTE YOUR APPS SCRIPT WEB APP URL HERE ─────────────────────────── */
+  var WHATSAPP_NUMBER = '919885253999';
   var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyE566ADAnbhESwiKssTJPX4CWbg7bedmjCCfc5jIDgFAOKOrzmiZGPv3vXuPA139FGRg/exec';
   /* ──────────────────────────────────────────────────────────────────────── */
 
@@ -761,15 +762,6 @@
     if (!input) return;
     input.classList.toggle('is-invalid', invalid);
   }
-  function setLoading(on) {
-    submitBtn.disabled = on;
-    submitBtn.classList.toggle('is-loading', on);
-    var lbl  = submitBtn.querySelector('.rsvp-submit__label');
-    var spin = submitBtn.querySelector('.rsvp-submit__loading');
-    if (lbl)  lbl.hidden  = on;
-    if (spin) spin.hidden = !on;
-  }
-
   /* ── validation ── */
   function validate() {
     var ok = true;
@@ -779,12 +771,6 @@
     markInvalid(name, !nameOk);
     showErr('errName', !nameOk);
     if (!nameOk) ok = false;
-
-    var phone = document.getElementById('rsvpPhone');
-    var phoneOk = phone && /^[\d\s\+\-\(\)]{6,16}$/.test(phone.value.trim());
-    markInvalid(phone, !phoneOk);
-    showErr('errPhone', !phoneOk);
-    if (!phoneOk) ok = false;
 
     var guests = document.getElementById('rsvpGuests');
     var guestsOk = guests && guests.value !== '';
@@ -806,60 +792,35 @@
 
     if (!validate()) return;
 
+    var attending = (form.querySelector('input[name="attending"]:checked') || {}).value || '';
     var data = {
       name:      document.getElementById('rsvpName').value.trim(),
-      phone:     document.getElementById('rsvpPhone').value.trim(),
       guests:    document.getElementById('rsvpGuests').value,
-      attending: (form.querySelector('input[name="attending"]:checked') || {}).value || '',
-      wish:      document.getElementById('rsvpWish').value.trim(),
-      timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+      attending: attending,
+      wish:      document.getElementById('rsvpWish').value.trim()
     };
 
-    setLoading(true);
+    /* Build the WhatsApp message from the form and open the couple's chat. */
+    var lines = [
+      'నమస్కారం తేజ & రెబెక్కా 🙏',
+      '',
+      'పేరు: ' + data.name,
+      'అతిథుల సంఖ్య: ' + data.guests,
+      'హాజరు: ' + (attending === 'Yes' ? 'తప్పకుండా వస్తాము! ✅' : 'రాలేకపోతున్నాము 🙏')
+    ];
+    if (data.wish) { lines.push('', 'శుభాకాంక్షలు: ' + data.wish); }
+    var url = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(lines.join('\n'));
 
-    /*
-     * CORS-free submission via hidden iframe + native form POST.
-     * Apps Script receives the data normally; we don't need to read
-     * the response, so CORS is never an issue.
-     * We show success after a short delay (time for the POST to travel).
-     */
-    var iframeName = 'rsvpSink_' + Date.now();
-    var iframe = document.createElement('iframe');
-    iframe.name = iframeName;
-    iframe.style.cssText = 'display:none;position:absolute;width:0;height:0;border:0;';
-    document.body.appendChild(iframe);
+    var win = window.open(url, '_blank');
+    if (!win) { window.location.href = url; }
 
-    var hiddenForm = document.createElement('form');
-    hiddenForm.method  = 'POST';
-    hiddenForm.action  = SCRIPT_URL;
-    hiddenForm.target  = iframeName;
-    hiddenForm.style.cssText = 'display:none;';
-
-    Object.keys(data).forEach(function (k) {
-      var input = document.createElement('input');
-      input.type  = 'hidden';
-      input.name  = k;
-      input.value = data[k];
-      hiddenForm.appendChild(input);
-    });
-
-    document.body.appendChild(hiddenForm);
-    hiddenForm.submit();
-
-    /* Show success after 2.5 s — plenty of time for the POST to land */
-    setTimeout(function () {
-      setLoading(false);
-      form.hidden        = true;
-      successBox.hidden  = false;
-      if (data.wish) appendWishCard(data.name, data.wish, true);
-      /* clean up */
-      try { document.body.removeChild(hiddenForm); } catch (ignore) {}
-      try { document.body.removeChild(iframe); }    catch (ignore) {}
-    }, 2500);
+    form.hidden       = true;
+    successBox.hidden = false;
   });
 
   /* ── wishes wall ── */
   function appendWishCard(name, wish, isNew) {
+    if (!wishesWall) return;
     if (wishesEmpty) wishesEmpty.hidden = true;
 
     var card = document.createElement('article');
@@ -890,6 +851,7 @@
 
   /* ── load existing wishes from sheet on page load ── */
   function loadWishes() {
+    if (!wishesWall) return;
     if (SCRIPT_URL === 'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE') return;
     fetch(SCRIPT_URL + '?action=getWishes')
       .then(function (res) { return res.json(); })

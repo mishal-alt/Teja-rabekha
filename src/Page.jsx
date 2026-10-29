@@ -401,20 +401,13 @@ export default function Page() {
               <div className="rsvp-success" id="rsvpSuccess" hidden>
                 <svg className="ico rsvp-success__ico" aria-hidden="true"><use href="#i-heart"></use></svg>
                 <p className="rsvp-success__title">ధన్యవాదాలు!</p>
-                <p className="rsvp-success__msg">మీ శుభాకాంక్షలు మాకు అందాయి. మీతో కలిసి వేడుకను జరుపుకోవడానికి ఎదురుచూస్తున్నాము.</p>
+                <p className="rsvp-success__msg">WhatsApp తెరవబడింది. దయచేసి అక్కడ “Send” నొక్కి మీ సందేశాన్ని పంపండి. మీతో కలిసి వేడుకను జరుపుకోవడానికి ఎదురుచూస్తున్నాము.</p>
               </div>
               <form id="rsvpForm" className="rsvp-form" noValidate>
-                <div className="rsvp-row">
-                  <div className="rsvp-field">
-                    <label className="rsvp-label" htmlFor="rsvpName">{"పూర్తి పేరు "}<span aria-hidden="true">*</span></label>
-                    <input className="rsvp-input" id="rsvpName" name="name" type="text" placeholder="మీ పూర్తి పేరు" autoComplete="name" required />
-                    <span className="rsvp-err" id="errName" role="alert" hidden></span>
-                  </div>
-                  <div className="rsvp-field">
-                    <label className="rsvp-label" htmlFor="rsvpPhone">{"ఫోన్ నంబర్ "}<span aria-hidden="true">*</span></label>
-                    <input className="rsvp-input" id="rsvpPhone" name="phone" type="tel" placeholder="+91 98852 53999" autoComplete="tel" required />
-                    <span className="rsvp-err" id="errPhone" role="alert" hidden></span>
-                  </div>
+                <div className="rsvp-field">
+                  <label className="rsvp-label" htmlFor="rsvpName">{"పూర్తి పేరు "}<span aria-hidden="true">*</span></label>
+                  <input className="rsvp-input" id="rsvpName" name="name" type="text" placeholder="మీ పూర్తి పేరు" autoComplete="name" required />
+                  <span className="rsvp-err" id="errName" role="alert" hidden></span>
                 </div>
                 <div className="rsvp-row">
                   <div className="rsvp-field">
@@ -455,21 +448,10 @@ export default function Page() {
                   <button type="submit" className="btn btn--gold rsvp-submit" id="rsvpSubmit">
                     <svg className="ico" aria-hidden="true"><use href="#i-heart"></use></svg>
                     <span className="rsvp-submit__label">{"శుభాకాంక్షలు పంపండి"}</span>
-                    <span className="rsvp-submit__loading" hidden aria-label="పంపుతున్నాము…"><span className="rsvp-spinner" aria-hidden="true"></span></span>
                   </button>
                   <p className="rsvp-err rsvp-err--submit" id="errSubmit" role="alert" hidden></p>
                 </div>
               </form>
-            </div>
-            <div className="wishes-section reveal" data-delay="2">
-              <div className="sec-head" style={{ marginTop: "clamp(52px,9vw,80px)" }}>
-                <p className="kicker">ఆత్మీయుల ఆశీస్సులు</p>
-                <h2 className="sec-title" style={{ fontSize: "clamp(22px,5vw,38px)" }}>దీవెనల గోడ</h2>
-                <div className="divider" aria-hidden="true"><span className="divider-line"></span><svg className="ico" aria-hidden="true"><use href="#i-rose"></use></svg><span className="divider-line"></span></div>
-              </div>
-              <div className="wishes-wall" id="wishesWall">
-                <p className="wishes-empty" id="wishesEmpty">నూతన వధూవరులకు మీ శుభాకాంక్షలు తెలిపిన మొదటి వ్యక్తి మీరే అవ్వండి!</p>
-              </div>
             </div>
           </div>
         </section>
