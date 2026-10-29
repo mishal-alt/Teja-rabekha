@@ -276,7 +276,7 @@ export default function Page() {
             </div>
             <div className="couple-photo-wrap reveal">
               <div className="couple-photo-frame">
-                <img className="couple-photo-img" loading="lazy" decoding="async" src="assets/images/gallery/couple-teja-rebakha.jpg" data-fallbacks="assets/images/gallery/Couple.jpeg,assets/images/gallery/Couple.jpg" data-placeholder="తేజ & రెబెక్కా" alt="దేవరం తేజ మరియు యాండవ రెబెక్కా" />
+                <img className="couple-photo-img" loading="eager" decoding="async" src="assets/images/gallery/couple-teja-rebakha.jpg" data-fallbacks="assets/images/gallery/Couple.jpeg,assets/images/gallery/Couple.jpg" data-placeholder="తేజ & రెబెక్కా" alt="దేవరం తేజ మరియు యాండవ రెబెక్కా" />
                 <span className="couple-photo-ring" aria-hidden="true"></span>
               </div>
             </div>

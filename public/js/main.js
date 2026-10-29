@@ -178,6 +178,23 @@
     wireImage
   );
 
+  /* Couple photo: a stalled or interrupted request raises no error event, so the
+     fallback chain never runs. Retry with a cache-buster until it actually loads. */
+  (function () {
+    var photo = document.querySelector('.couple-photo-img');
+    if (!photo) return;
+    var tries = 0;
+    function ensureLoaded() {
+      if (photo.complete && photo.naturalWidth > 0) return;
+      if (tries++ >= 4) return;
+      var base = (photo.getAttribute('src') || '').split('?')[0];
+      photo.classList.remove('failed');
+      photo.src = base + '?r=' + Date.now();
+      setTimeout(ensureLoaded, 3000);
+    }
+    setTimeout(ensureLoaded, 3000);
+  })();
+
   /* ---------------------------------------------------------
      2 · Scroll lock
      --------------------------------------------------------- */
