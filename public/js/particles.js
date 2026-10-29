@@ -160,14 +160,14 @@
     off.width = cw; off.height = ch;
     var o = off.getContext('2d');
 
-    var fam = '"Noto Serif Telugu", "Ramabhadra", serif';
+    var fam = '"Cormorant Garamond", Georgia, "Times New Roman", serif';
     var twoLines = cw < 560;
-    var lines = ['ధన్యవాదాలు'];
+    var lines = twoLines ? ['THANK', 'YOU'] : ['THANK YOU'];
     var size = twoLines ? Math.min(ch * 0.44, cw * 0.30) : Math.min(ch * 0.66, cw * 0.19);
 
     o.textAlign = 'center';
     o.textBaseline = 'middle';
-    if ('letterSpacing' in o) o.letterSpacing = '0px';
+    if ('letterSpacing' in o) o.letterSpacing = Math.round(size * 0.11) + 'px';
 
     /* shrink to fit */
     for (var guard = 0; guard < 22; guard++) {
@@ -178,7 +178,7 @@
       }
       if (widest <= cw * 0.92) break;
       size *= 0.93;
-      if ('letterSpacing' in o) o.letterSpacing = '0px';
+      if ('letterSpacing' in o) o.letterSpacing = Math.round(size * 0.11) + 'px';
     }
 
     o.fillStyle = '#fff';

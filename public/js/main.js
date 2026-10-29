@@ -651,7 +651,7 @@
      --------------------------------------------------------- */
   (function countdown() {
     /* Betrothal: Wednesday 26 August 2026 at 12:00 Noon IST (UTC+5:30) */
-    var target = new Date('2026-11-18T10:30:00+05:30').getTime();
+    var target = new Date('2026-11-20T10:00:00+05:30').getTime();
     var d = document.getElementById('cdD'),
         h = document.getElementById('cdH'),
         m = document.getElementById('cdM'),
@@ -819,13 +819,13 @@
 
     /* Build the WhatsApp message from the form and open the couple's chat. */
     var lines = [
-      'నమస్కారం తేజ & రెబెక్కా 🙏',
+      'Hello Rebakha & Teja 🙏',
       '',
-      'పేరు: ' + data.name,
-      'అతిథుల సంఖ్య: ' + data.guests,
-      'హాజరు: ' + (attending === 'Yes' ? 'తప్పకుండా వస్తాము! ✅' : 'రాలేకపోతున్నాము 🙏')
+      'Name: ' + data.name,
+      'Number of guests: ' + data.guests,
+      'Attending: ' + (attending === 'Yes' ? 'Yes, we will be there! ✅' : 'Sorry, we can\'t make it 🙏')
     ];
-    if (data.wish) { lines.push('', 'శుభాకాంక్షలు: ' + data.wish); }
+    if (data.wish) { lines.push('', 'Wishes: ' + data.wish); }
     var url = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(lines.join('\n'));
 
     var win = window.open(url, '_blank');
